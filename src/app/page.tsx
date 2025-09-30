@@ -1,3 +1,4 @@
+import ProductList from "@/components/ProductList"
 import Image from "next/image"
 
 const Homepage = () => {
@@ -9,6 +10,7 @@ const Homepage = () => {
         <Image src="/featured.png" alt="featured product" fill />
       </div>
       {/* Product Section */}
+      <ProductList/>
     </div>
   )
 }
