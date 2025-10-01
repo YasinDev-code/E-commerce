@@ -1,7 +1,9 @@
 import ProductList from "@/components/ProductList"
 import Image from "next/image"
 
-const Homepage = () => {
+const Homepage = ({searchParams}:{searchParams:{category?: string}}) => {
+
+  const category = searchParams.category || ""
   return (
     <div className=''>
       {/* Slider */}
@@ -10,7 +12,7 @@ const Homepage = () => {
         <Image src="/featured.png" alt="featured product" fill />
       </div>
       {/* Product Section */}
-      <ProductList/>
+      <ProductList category={category}/>
     </div>
   )
 }
