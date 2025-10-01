@@ -12,7 +12,7 @@ const Homepage = ({searchParams}:{searchParams:{category?: string}}) => {
         <Image src="/featured.png" alt="featured product" fill />
       </div>
       {/* Product Section */}
-      <ProductList category={category}/>
+      <ProductList category={category} params="homepage"/>
     </div>
   )
 }
