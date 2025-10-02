@@ -22,3 +22,11 @@ export interface ProductPageProps {
         category?: string;
     }>;
 }
+
+export type CartItemType = productType & {
+    quantity: number;
+    selectedSize: string;
+    selectedColor: string;
+};
+
+export type CartItemsType = CartItemType[];
