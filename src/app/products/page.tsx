@@ -1,10 +1,12 @@
 import ProductList from "@/components/ProductList";
+import { ProductPageProps } from "@/types";
 
-export default function productsPage({searchParams}:{searchParams:{category?: string}}) {
-  const category = searchParams.category || ""
+export default async function ProductsPage({ searchParams }: ProductPageProps) {
+  const params = await searchParams;
+  const category = params?.category ?? "";
   return (
-    <div className="">
-        <ProductList category={category} params="products"/>
+    <div>
+      <ProductList category={category} params="products" />
     </div>
-  )
+  );
 }

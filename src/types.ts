@@ -10,3 +10,15 @@ export type productType = {
 }
 
 export type productsType = productType[]
+
+export interface HomePageProps {
+    searchParams: Promise<{
+        category?: string;
+    }>;
+}
+
+export interface ProductPageProps {
+    searchParams: Promise<{
+        category?: string;
+    }>;
+}
