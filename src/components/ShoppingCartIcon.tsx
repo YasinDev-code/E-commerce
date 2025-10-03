@@ -1,12 +1,18 @@
+"use client"
+
+import useCartStore from '@/stores/cartStore'
 import { ShoppingCart } from 'lucide-react'
 import Link from 'next/link'
 import React from 'react'
 
 export default function ShoppingCartIcon() {
+    const { cart } = useCartStore()
     return (
         <Link href='/cart' className='relative'>
             <ShoppingCart className="w-4 h-4 text-gray-600" />
-            <span className='absolute -top-4 -right-3 bg-amber-400 text-gray-600 rounded-full w-5 h-5 flex items-center justify-center text-sm font-medium'>1</span>
+            <span className='absolute -top-4 -right-3 bg-amber-400 text-gray-600 rounded-full w-5 h-5 flex items-center justify-center text-sm font-medium'>
+                {cart.reduce((acc, item) => acc + item.quantity, 0)}
+            </span>
         </Link>
     )
 }
