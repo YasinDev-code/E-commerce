@@ -6,6 +6,7 @@ const useCartStore = create<cartStoreStateType & cartStoreActionsType>()(
     persist(
         (set) => ({
             cart: [],
+            hasHydrated: false,
             addToCart: (product) => set((state) => {
                 const existingProduct = state.cart.findIndex(item =>
                     item.id === product.id &&
@@ -30,6 +31,11 @@ const useCartStore = create<cartStoreStateType & cartStoreActionsType>()(
         {
             name: "cart",
             storage: createJSONStorage(() => localStorage),
+            onRehydrateStorage: () => (state) => {
+                if(state) {
+                    state.hasHydrated = true;
+                }
+            }
         }
     )
 )

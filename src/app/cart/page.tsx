@@ -7,7 +7,7 @@ import { CartItemsType, ShippingFormInputs } from "@/types";
 import { ArrowRight, Trash2 } from "lucide-react";
 import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useState } from "react";
+import { Suspense, useState } from "react";
 
 const steps = [
     {
@@ -81,7 +81,7 @@ const steps = [
 //     },
 // ];
 
-export default function CartPage() {
+function CartPageContent() {
     const searchParams = useSearchParams();
     const router = useRouter();
     const [shippingForm, setShippingForm] = useState<ShippingFormInputs>();
@@ -123,32 +123,32 @@ export default function CartPage() {
                 <div className="w-full lg:w-7/12 border-1 border-gray-100 p-8 rounded-lg flex flex-col gap-8">
                     {activeStep === 1 ? (
                         cart.length !== 0 ?
-                        cart.map(item => (
-                            // Single Cart Item 
-                            <div className="flex items-center justify-between" key={item.id+item.selectedSize+item.selectedColor}>
-                                {/* Image and Details */}
-                                <div className="flex gap-8">
-                                    {/* Image */}
-                                    <div className="relative w-32 h-32 bg-gray-50 rounded-lg overflow-hidden">
-                                        <Image src={item.images[item.selectedColor]} alt={item.name} fill className="object-contain" />
-                                    </div>
-                                    {/* Item Details */}
-                                    <div className="flex flex-col justify-between">
-                                        <div className="flex flex-col gap-1">
-                                            <p className="text-sm font-medium">{item.name}</p>
-                                            <p className="text-xs text-gray-500">Quantity:{" "}{item.quantity}</p>
-                                            <p className="text-xs text-gray-500">Size:{" "}{item.selectedSize.toUpperCase()}</p>
-                                            <p className="text-xs text-gray-500">Color:{" "}{item.selectedColor}</p>
+                            cart.map(item => (
+                                // Single Cart Item
+                                <div className="flex items-center justify-between" key={item.id + item.selectedSize + item.selectedColor}>
+                                    {/* Image and Details */}
+                                    <div className="flex gap-8">
+                                        {/* Image */}
+                                        <div className="relative w-32 h-32 bg-gray-50 rounded-lg overflow-hidden">
+                                            <Image src={item.images[item.selectedColor]} alt={item.name} fill className="object-contain" />
                                         </div>
-                                        <p className="font-medium">${item.price.toFixed(2)}</p>
+                                        {/* Item Details */}
+                                        <div className="flex flex-col justify-between">
+                                            <div className="flex flex-col gap-1">
+                                                <p className="text-sm font-medium">{item.name}</p>
+                                                <p className="text-xs text-gray-500">Quantity:{" "}{item.quantity}</p>
+                                                <p className="text-xs text-gray-500">Size:{" "}{item.selectedSize.toUpperCase()}</p>
+                                                <p className="text-xs text-gray-500">Color:{" "}{item.selectedColor}</p>
+                                            </div>
+                                            <p className="font-medium">${item.price.toFixed(2)}</p>
+                                        </div>
                                     </div>
+                                    {/* Delete Button */}
+                                    <button onClick={() => removeFromCart(item)} className="w-8 h-8 rounded-full bg-red-100 hover:bg-red-200 transition-all duration-300 text-red-400 flex items-center justify-center cursor-pointer">
+                                        <Trash2 className="w-3 h-3" />
+                                    </button>
                                 </div>
-                                {/* Delete Button */}
-                                <button onClick={() => removeFromCart(item)} className="w-8 h-8 rounded-full bg-red-100 hover:bg-red-200 transition-all duration-300 text-red-400 flex items-center justify-center cursor-pointer">
-                                    <Trash2 className="w-3 h-3"/>
-                                </button>
-                            </div>
-                        )) : <p className="text-sm text-gray-500">You dont have any items in your cart</p>
+                            )) : <p className="text-sm text-gray-500">You dont have any items in your cart</p>
                     ) : activeStep === 2 ? (
                         <ShippingForm setShippingForm={setShippingForm} />
                     ) : activeStep === 3 && shippingForm ? (
@@ -191,4 +191,12 @@ export default function CartPage() {
             </div>
         </div>
     )
+}
+
+export default function CartPage() {
+    return (
+        <Suspense fallback={<div />}>
+            <CartPageContent />
+        </Suspense>
+    );
 }
